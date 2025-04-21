@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -329,7 +330,7 @@
         </div>
         
         <footer>
-            <p><span class="powered-by">Powered by Professor Software Solutions</span> | © 2025 All Rights Reserved</p>
+            <p><span class="powered-by">Powered by <a href=https://bughuntar.com target="_blank">Professor Software Solutions</a></span> | © 2025 All Rights Reserved</p>
         </footer>
     </div>
 
@@ -385,6 +386,9 @@
             if (isValid && domain) {
                 domainLinks = `
                     <div class="result-links">
+                        <a href="https://${domain}" target="_blank" class="result-link">
+                            <i class="fas fa-globe"></i> Visit Website
+                        </a>
                         <a href="https://www.onlydomains.com/domain/frontSearch?domain=${domain}" target="_blank" class="result-link">
                             <i class="fas fa-globe"></i> Check Domain Availability on OnlyDomain
                         </a>
@@ -427,7 +431,7 @@
         
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
-                alert('Copied to clipboard: ' + text);
+                console.log('Copied to clipboard: ' + text);
             }).catch(err => {
                 console.error('Failed to copy: ', err);
             });
