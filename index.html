@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Address Validity Checker | Professor Software Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/3/34/Icon_hacker.png">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #4895ef;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --success: #4cc9f0;
+            --warning: #f72585;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        .main-content {
+            padding: 2rem;
+        }
+        
+        .description {
+            color: #666;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .input-section {
+            margin-bottom: 2rem;
+        }
+        
+        .input-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .email-input {
+            width: 100%;
+            min-height: 150px;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            transition: all 0.3s ease;
+        }
+        
+        .email-input:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #e9ecef;
+            color: var(--dark);
+        }
+        
+        .btn-secondary:hover {
+            background: #dee2e6;
+        }
+        
+        .results-section {
+            display: none;
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .result-email {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+        
+        .result-valid {
+            background: var(--success);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .result-invalid {
+            background: var(--warning);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .result-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .result-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .result-link:hover {
+            color: var(--secondary);
+        }
+        
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            margin-left: auto;
+            transition: color 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            color: var(--primary);
+        }
+        
+        .command-box {
+            background: #f8f9fa;
+            padding: 0.8rem 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+        }
+        
+        .command-text {
+            overflow-x: auto;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: #6c757d;
+            font-size: 0.9rem;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .powered-by {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            header {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <h1>Email Address Validity Checker</h1>
+            <p class="subtitle">Extract and verify domains from email addresses</p>
+        </header>
+        
+        <div class="main-content">
+            <p class="description">
+                This tool helps you validate email addresses and extract domain information. 
+                Enter one or more email addresses to check domain availability and WHOIS information.
+            </p>
+            
+            <div class="input-section">
+                <label for="emailInput" class="input-label">Enter email addresses (one per line):</label>
+                <textarea 
+                    id="emailInput" 
+                    class="email-input" 
+                    placeholder="support@bughuntar.com&#10;test@domain.org"></textarea>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-primary" onclick="processEmails()">
+                        <i class="fas fa-check-circle"></i> Validate Emails
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearInput()">
+                        <i class="fas fa-trash-alt"></i> Clear
+                    </button>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Processing emails...</p>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <h2>Results</h2>
+                <div id="resultsContainer"></div>
+            </div>
+        </div>
+        
+        <footer>
+            <p><span class="powered-by">Powered by Professor Software Solutions</span> | © 2025 All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        function processEmails() {
+            const emailInput = document.getElementById('emailInput').value;
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsSection = document.getElementById('resultsSection');
+            const loading = document.getElementById('loading');
+            
+            if (!emailInput.trim()) {
+                alert('Please enter at least one email address');
+                return;
+            }
+            
+            // Show loading
+            loading.style.display = 'block';
+            resultsSection.style.display = 'none';
+            resultsContainer.innerHTML = '';
+            
+            // Simulate processing delay
+            setTimeout(() => {
+                const emails = emailInput.split('\n');
+                let resultsHtml = '';
+                
+                emails.forEach(email => {
+                    const trimmedEmail = email.trim();
+                    if (trimmedEmail) {
+                        const isValid = validateEmail(trimmedEmail);
+                        const domain = isValid ? trimmedEmail.split('@')[1] : null;
+                        
+                        resultsHtml += createResultCard(trimmedEmail, isValid, domain);
+                    }
+                });
+                
+                resultsContainer.innerHTML = resultsHtml;
+                loading.style.display = 'none';
+                resultsSection.style.display = 'block';
+                
+                // Scroll to results
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+            }, 1000);
+        }
+        
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        function createResultCard(email, isValid, domain) {
+            let domainLinks = '';
+            
+            if (isValid && domain) {
+                domainLinks = `
+                    <div class="result-links">
+                        <a href="https://www.onlydomains.com/domain/frontSearch?domain=${domain}" target="_blank" class="result-link">
+                            <i class="fas fa-globe"></i> Check Domain Availability on OnlyDomain
+                        </a>
+                        <a href="https://www.whois.com/whois/${domain}" target="_blank" class="result-link">
+                            <i class="fas fa-search"></i> Check WHOIS Online
+                        </a>
+                        <div>
+                            <p class="result-link"><i class="fas fa-search"></i>Check WHOIS on Terminal</p>
+                            <div class="command-box">
+                                <code class="command-text">whois ${domain}</code>
+                                <button class="copy-btn" onclick="copyToClipboard('whois ${domain}')">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (!isValid) {
+                domainLinks = `<p class="text-muted">Invalid email format - cannot extract domain</p>`;
+            }
+            
+            return `
+                <div class="result-card">
+                    <div class="result-header">
+                        <span class="result-email">${email}</span>
+                        <span class="${isValid ? 'result-valid' : 'result-invalid'}">
+                            ${isValid ? 'VALID' : 'INVALID'}
+                        </span>
+                    </div>
+                    ${domainLinks}
+                </div>
+            `;
+        }
+        
+        function clearInput() {
+            document.getElementById('emailInput').value = '';
+            document.getElementById('resultsContainer').innerHTML = '';
+            document.getElementById('resultsSection').style.display = 'none';
+        }
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard: ' + text);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
