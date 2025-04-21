@@ -2,7 +2,7 @@
 
 A professional web tool to validate email addresses and check domain availability.
 
-![Screenshot](https://via.placeholder.com/800x500?text=Email+Validity+Checker+Screenshot)
+![Screenshot](https://placehold.co/800x200?text=Email%20Address\nValidity%20Checker)
 
 ## Features
 
